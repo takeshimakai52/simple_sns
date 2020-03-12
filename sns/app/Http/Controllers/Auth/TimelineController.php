@@ -27,4 +27,19 @@ class TimelineController extends Controller
         return back(); // リクエスト送ったページに戻る（つまり、/timelineにリダイレクトする）
     }
 
-}
+    public function get_tweets(){
+        return Tweet::latest()->get(); 
+    }
+
+    public function create_tweets(Request $request){
+        $validator = $request->validate([ // これだけでバリデーションできるLaravelすごい！
+            'tweet' => ['required', 'string', 'max:280'], 
+            // 必須・文字であること・280文字まで（ツイッターに合わせた）というバリデーションをします（ビューでも軽く説明します。）
+        ]);
+        Tweet::create([
+            'user_id' => Auth::user()->id, // Auth::user()は、現在ログインしている人（つまりツイートしたユーザー）
+            'tweet' => $request->tweet, // ツイート内容
+        ]); 
+    }
+
+} 

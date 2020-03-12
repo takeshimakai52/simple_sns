@@ -23,3 +23,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/timeline', 'Auth\TimelineController@showTimelinePage'); 
 Route::post('/timeline', 'Auth\TimelineController@postTweet');
+
+Route::prefix('api')->group(function() {
+    Route::get('test','Auth\TimelineController@get_tweets');
+    Route::post('create','Auth\TimelineController@create_tweets');
+
+});
